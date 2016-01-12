@@ -1,0 +1,64 @@
+body {
+	background-color: #B0C9D1
+}
+
+h1 {
+	color: #2F2A8C;
+	margin-left: 20px;
+	margin-bottom: 0;
+	padding: 0;
+}
+
+h2 {
+	color: #2F2A8C;
+	margin-top: 0;
+	margin-left: 20px;
+}
+
+p {
+	padding-left: 20px;
+}
+
+#weather_links {
+	text-align: center;
+}
+
+#quotes {
+	border:15px groove #7CC4A4;
+	background-color: #CCE0D7;
+	padding-left: 10px;
+	float: left;
+    margin: 10px;
+    font-variant: small-caps;
+    font-size: 18px;
+}
+
+img {
+	float: left;
+	padding-left: 90px;
+}
+
+form {
+	float: left;
+	padding-top: 30px;
+	padding-left: 90px;
+}
+
+table {
+	border-collapse: collapse;
+	min-width: 100px;
+	max-width: 500px;
+}
+
+th, td {
+	border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #7CC4A4;
+}
+
+a:link { color: rgb(0, 0, 153) } 
+a:visited { color: rgb(153, 0, 153) } 
+a:hover { color: rgb(0, 96, 255) } 
+a:active { color: rgb(255, 0, 102) }
