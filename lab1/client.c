@@ -108,8 +108,19 @@ int  main(int argc, char* argv[])
 
     /* get IP address from name */
     pHostInfo=gethostbyname(strHostName);
-    /* copy address into long */
-    memcpy(&nHostAddress,pHostInfo->h_addr,pHostInfo->h_length);
+    
+    // If pHostInfo is not null
+    if (pHostInfo)
+    {
+        /* copy address into long */
+        memcpy(&nHostAddress,pHostInfo->h_addr,pHostInfo->h_length);
+    }
+    else
+    {
+        printf("\nERROR: could not get address from host name\n");
+        return 2;
+    }
+    
 
     /* fill address struct */
     Address.sin_addr.s_addr=nHostAddress;
@@ -132,22 +143,27 @@ int  main(int argc, char* argv[])
 
     // Create HTTP Message
     char *message = (char *)malloc(MAXGET);
-    sprintf(message, "GET %s HTTP/1.1\r\nHost:%s:%d\r\n\r\n",strFilePath,strHostName,nHostPort);
+    sprintf(message, "\nGET %s HTTP/1.1\r\nHost:%s:%d\r\n\r\n",strFilePath,strHostName,nHostPort);
 
     // Send HTTP on the socket
     if (debug == 1)
-        printf("\nRequest: %s\n", message);
-    write(hSocket,message,strlen(message));
+        printf("\n\nRequest: %s\n", message);
 
     // Read Response back from socket
+    int nSuccessfulDownloads = 0;
     if (nTimesToDownload > -1)
     {
-        for (i = 1; i < nTimesToDownload; ++i)
+        for (i = 1; i <= nTimesToDownload; ++i) {
+            int temp = write(hSocket,message,strlen(message));
             nReadAmount=read(hSocket,pBuffer,RESPONSE_SIZE);
-        printf("\nSuccessful downloads: %d ", nTimesToDownload);
+            if (nReadAmount >= 0)
+                nSuccessfulDownloads++;
+        }
+        printf("\nSuccessful downloads: %d ", nSuccessfulDownloads);
     }
     else
     {
+        write(hSocket,message,strlen(message));
         nReadAmount=read(hSocket,pBuffer,RESPONSE_SIZE);
         printf("\nRead: %d\n\nResponse: ", nReadAmount);
         fwrite(pBuffer, nReadAmount, 1, stdout);
