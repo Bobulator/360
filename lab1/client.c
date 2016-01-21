@@ -153,8 +153,9 @@ int  main(int argc, char* argv[])
     int nSuccessfulDownloads = 0;
     if (nTimesToDownload > -1)
     {
-        for (i = 1; i <= nTimesToDownload; ++i) {
-            int temp = write(hSocket,message,strlen(message));
+        for (i = 1; i <= nTimesToDownload; ++i) 
+        {
+            write(hSocket,message,strlen(message));
             nReadAmount=read(hSocket,pBuffer,RESPONSE_SIZE);
             if (nReadAmount >= 0)
                 nSuccessfulDownloads++;
@@ -166,7 +167,26 @@ int  main(int argc, char* argv[])
         write(hSocket,message,strlen(message));
         nReadAmount=read(hSocket,pBuffer,RESPONSE_SIZE);
         printf("\nRead: %d\n\nResponse: ", nReadAmount);
-        fwrite(pBuffer, nReadAmount, 1, stdout);
+
+        i = 1;
+        // If debug flag isn't set, skip http headers
+        if (debug != 1) 
+        {
+            bool headers = true;
+            while (headers)
+            {
+                if (pBuffer[i] == '\r' && pBuffer[i + 1] == '\n' &&
+                    pBuffer[i + 2] == '\r' && pBuffer[i + 3] == '\n')
+                {
+                    headers = false;
+                    i += 3;
+                }
+
+                i++;
+            }
+        }
+
+        fwrite(pBuffer + i, nReadAmount - i, 1, stdout);
     }
 
     printf("\nClosing socket\n");
