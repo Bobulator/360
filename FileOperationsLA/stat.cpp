@@ -25,6 +25,8 @@ main(int argc, char **argv)
 		char *buff = (char *)malloc(filestat.st_size);
 		fread(buff, filestat.st_size, 1, fp);
 		cout << "FILE " << endl << buff << endl;
+		free(buff);
+		fclose(fp);
 	}
 
 	if (S_ISDIR(filestat.st_mode))
