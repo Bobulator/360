@@ -1,6 +1,6 @@
 TARGET = server
 LIBS = -lm
-CC = gcc
+CC = g++
 CFLAGS = -g -Wall
 
 .PHONY: default all clean

@@ -1,11 +1,10 @@
-#include <sys/types.h>
-#include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
 #include <string.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/socket.h>
 
 #include "util.h"
 
@@ -104,8 +103,15 @@ int main(int argc, char* argv[])
         printf("Requested file or directory: %s\n", temp);
 
         memset(pBuffer, 0, sizeof(pBuffer));
-        sprintf(pBuffer, "%s", "HTTP/1.1 200 OK\r\n\r\n<html>Hello</html>\n");
+        sprintf(pBuffer, "%s", "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n\r\n<html>Hello</html>\n");
         write(hSocket, pBuffer, strlen(pBuffer));	
+	
+	linger lin;
+	unsigned int y = sizeof(lin);
+	lin.l_onoff = 1;
+	lin.l_linger = 10;
+	setsockopt(hSocket, SOL_SOCKET, SO_LINGER, &lin, sizeof(lin));
+	shutdown(hSocket, SHUT_RDWR);
 
         printf("\nClosing the socket");
         /* close socket */
