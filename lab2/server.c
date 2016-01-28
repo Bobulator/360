@@ -2,16 +2,21 @@
 #include <netdb.h>
 #include <string.h>
 #include <iostream>
+#include <sstream>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/socket.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <cstdlib>
+#include <dirent.h>
 
 #include "serverUtils.cpp"
 
 #define SOCKET_ERROR        -1
-#define BUFFER_SIZE         1024
+#define BUFFER_SIZE         60000
 #define QUEUE_SIZE          5
 
 using namespace std;
@@ -27,7 +32,7 @@ void setReusableSocket(const int &hServerSocket);
 void listenForConnection();
 void setLinger(const int &hSocket);
 int acceptConnection(const int &hServerSocket, const struct sockaddr_in &Address, const int &nAddressSize);
-void serveRequest(const int &hSocket, const string &sDirectory, char *pBuffer, const int &pBufferSize);
+void serveRequest(const int &hSocket, const string &sDirectory, const int &nHostPort);
 void closeSocket(const int &socket);
 
 int main(int argc, char* argv[])
@@ -36,7 +41,6 @@ int main(int argc, char* argv[])
     //struct hostent* pHostInfo;   /* holds info about a machine */
     struct sockaddr_in Address; /* Internet socket address stuct */
     int nAddressSize = sizeof(struct sockaddr_in);
-    char pBuffer[BUFFER_SIZE];
     int nHostPort;
     string sDirectory;
 
@@ -85,52 +89,125 @@ int main(int argc, char* argv[])
         /* get the connected socket */
         hSocket = acceptConnection(hServerSocket, Address, nAddressSize);
 
-        serveRequest(hSocket, sDirectory, pBuffer, (int) sizeof(pBuffer));
+        serveRequest(hSocket, sDirectory, nHostPort);
 
+        // Wait for client to receive data in transit before closing socket
+        setLinger(hSocket);
         closeSocket(hSocket);
     }
 }
 
 
-void serveRequest(const int &hSocket, const string &sDirectory, char *pBuffer, const int &pBufferSize)
+void serveRequest(const int &hSocket, const string &sDirectory, const int &nHostPort)
 {
-    printf("\nRetrieving headers...");
+    stringstream ss;
+    string sHeaders;
+    string sFileContents = "";
+    char *fBuff = NULL;
+    char directoryName[255];
+
+    printf("\nRetrieving headers.....");
     vector<char *> headers;
     GetHeaderLines(headers, hSocket, false);
     printf("DONE\n");
+
+    if (headers.size() == 0)
+    {
+        printf("\nCould not parse request\n");
+        return;
+    }
 
     printf("\nGot from browser: \n");
     printVector(headers);
     printf("\n");
 
-    printf("Retrieving requested file/directory name...");
-    string fileOrDirName = getRequestedFileName(headers);
+    printf("Retrieving requested file/directory name.....");
+    sprintf(directoryName, "%s", (sDirectory + getRequestedFileName(headers)).c_str());
     printf("DONE\n");
 
-    printf("\nRequested file/directory: %s\n\n", fileOrDirName.c_str());
-    memset(pBuffer, 0, pBufferSize);
-    int readResult = readFileOrDirectory((sDirectory + fileOrDirName).c_str(), pBuffer, pBufferSize);
+    printf("\nRequested file/directory: %s\n\n", directoryName);
 
-    char responseBuffer[2048];
-    if (readResult == -1)
+    struct stat filestat;
+
+    if (stat(directoryName, &filestat))
     {
-        sprintf(responseBuffer, "HTTP/1.1 404\r\n\r\n404 File Not Found");
+        sHeaders = "HTTP/1.1 404 error\r\n\r\n";
+        sFileContents = "404 File Not Found";
     }
 
-    else if (readResult == 1)
+    else if (S_ISREG(filestat.st_mode))
     {
-        sprintf(responseBuffer, "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n\r\n%s\n", pBuffer);
+        sFileContents = fileToString(directoryName, fBuff, filestat);
+
+        ss << "HTTP/1.1 OK\r\nContent-Type: " 
+           << getExt(directoryName)
+           << "\r\nContent-Length: "
+           << (int) sFileContents.size()
+           << "\r\n\r\n";
+        sHeaders = ss.str();
     }
 
-    else if (readResult == 2)
+    else if (S_ISDIR(filestat.st_mode))
     {
+        struct stat buffer;
+        string name = directoryName;
+        name = name + "index.html";
+        if (stat (name.c_str(), &buffer) == 0)
+        {
+            printf ("index.html found in directory\n");
+            sFileContents = fileToString(name.c_str(), fBuff, buffer);
 
+            ss << "HTTP/1.1 OK\r\n"
+               << "Content-Type: text/html\r\n"
+               << "Content-Length: "
+               << (int) sFileContents.size()
+               << "\r\n\r\n";
+            sHeaders = ss.str();
+        }
+        else
+        {
+            printf("index.html not find, sending directory contents\n");
+
+            stringstream ts;
+            ts << "<html>\n"
+            << "<body>\n"
+            << "<ol>\n";
+            
+            DIR *dirp;
+            struct dirent *dp;
+
+            dirp = opendir(directoryName);
+            while ((dp = readdir(dirp)) != NULL)
+            {
+                ts << "<li><a href=" << dp->d_name 
+                   << ">/" << dp->d_name
+                   << "</a>\n";
+            }
+            (void)closedir(dirp);
+            ts << "</ol>"
+               << "</body>\n"
+               << "</html>";
+
+            sFileContents = ts.str();
+
+            ss << "HTTP/1.1 OK\r\n"
+               << "Content-Type: text/html\r\n"
+               << "Content-Length: "
+               << sFileContents.size()
+               << "\r\n\r\n";
+            sHeaders = ss.str();
+        }
     }
 
-    write(hSocket, responseBuffer, strlen(responseBuffer)); 
-
-    // Wait for client to receive data in transit before closing socket
-    setLinger(hSocket);
+    //printf("\n%d\n%s\n", (int) sHeaders.size(), sHeaders.c_str());
+    //printf("\n%d%s\n", (int) sFileContents.size(), sFileContents.c_str());
+    //printf("\n\nFILE SIZE: %d\n\n", (int) sFileContents.size());
+    string response = sHeaders + sFileContents;
+    int wroteAmt = write(hSocket, response.c_str(), response.size());
+    printf("Wrote %d to socket", wroteAmt);
+    
+    if (fBuff != NULL)
+        free(fBuff);
 }
 
 
@@ -212,10 +289,9 @@ void setReusableSocket(const int &hServerSocket)
 void setLinger(const int &hSocket)
 {
     linger lin;
-    unsigned int lin_size = sizeof(lin);
     lin.l_onoff = 1;
     lin.l_linger = 10;
-    setsockopt(hSocket, SOL_SOCKET, SO_LINGER, &lin, lin_size);
+    setsockopt(hSocket, SOL_SOCKET, SO_LINGER, &lin, sizeof(lin));
     shutdown(hSocket, SHUT_RDWR);
 }
 

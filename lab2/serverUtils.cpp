@@ -17,7 +17,8 @@ using namespace std;
 
 // Determine if the character is whitespace
 bool isWhitespace(char c)
-{ switch (c)
+{ 
+    switch (c)
     {
         case '\r':
         case '\n':
@@ -50,8 +51,15 @@ char * GetLine(int fds)
     int amtread = 0;
     while((amtread = read(fds, tline + messagesize, 1)) < MAX_MSG_SZ)
     {
-        if (amtread >= 0)
+
+        if (amtread > 0)
+        {
             messagesize += amtread;
+        }
+        else if( amtread == 0 )
+        {
+            break;
+        }
         else
         {
             perror("Socket Error is:");
@@ -60,7 +68,9 @@ char * GetLine(int fds)
         }
         //fprintf(stderr,"%d[%c]", messagesize,message[messagesize-1]);
         if (tline[messagesize - 1] == '\n')
+        {
             break;
+        }
     }
     tline[messagesize] = '\0';
     chomp(tline);
@@ -92,10 +102,10 @@ void UpcaseAndReplaceDashWithUnderline(char *str)
 // When calling CGI scripts, you will have to convert header strings
 // before inserting them into the environment.  This routine does most
 // of the conversion
-char *FormatHeader(char *str, const char *prefix)
+char *FormatHeader(char *str, char *prefix)
 {
     char *result = (char *)malloc(strlen(str) + strlen(prefix));
-    char* value = strchr(str,':') + 1;
+    char* value = strchr(str,':') + 2;
     UpcaseAndReplaceDashWithUnderline(str);
     *(strchr(str,':')) = '\0';
     sprintf(result, "%s%s=%s", prefix, str, value);
@@ -114,26 +124,26 @@ void GetHeaderLines(vector<char *> &headerLines, int skt, bool envformat)
     
     tline = GetLine(skt);
     while(strlen(tline) != 0)
-    {
+    {printf("getting a header\n");
         if (strstr(tline, "Content-Length") || 
             strstr(tline, "Content-Type"))
         {
             if (envformat)
-                line = FormatHeader(tline, "");
+                line = FormatHeader(tline, const_cast<char*>(""));
             else
                 line = strdup(tline);
         }
         else
         {
             if (envformat)
-                line = FormatHeader(tline, "HTTP_");
+                line = FormatHeader(tline, const_cast<char*>("HTTP_"));
             else
             {
                 line = (char *)malloc((strlen(tline) + 10) * sizeof(char));
                 sprintf(line, "HTTP_%s", tline);                
             }
         }
-        //fprintf(stderr, "Header --> [%s]\n", line);
+        fprintf(stderr, "Header --> [%s]\n", line);
         
         headerLines.push_back(line);
         free(tline);
@@ -168,6 +178,20 @@ void printVector(const vector<char *> v)
     }
 }
 
+const char *getExt (const char *filename) {
+    const char *dot = strrchr(filename, '.');
+    if(!dot || dot == filename) return "";
+
+    if (strcmp(dot, ".txt") == 0)
+        return "text/plain";
+    else if (strcmp(dot, ".jpg") == 0)
+        return "image/jpg";
+    else if (strcmp(dot, ".gif") == 0)
+        return "image/gif";
+    else
+        return "text/html";
+}
+
 int readFileOrDirectory(const char *name, char *buff, int buffSize)
 {
     struct stat filestat;
@@ -186,7 +210,7 @@ int readFileOrDirectory(const char *name, char *buff, int buffSize)
         //cout << "FILE " << endl << buff << endl;
         fclose(fp);
 
-        return 1;
+        return (int)filestat.st_size;
     }
 
     else if (S_ISDIR(filestat.st_mode))
@@ -213,4 +237,29 @@ int readFileOrDirectory(const char *name, char *buff, int buffSize)
     }
 
     return 0;
+}
+
+string fileToString(const char *directoryName, char *fBuff, struct stat &filestat)
+{
+    printf("Opening and reading ");
+    string fileExt = getExt(directoryName);
+    FILE *fp;
+    if (fileExt.compare(0, 5, "image") == 0)
+    {
+        printf("image.....");
+        fp = fopen(directoryName, "rb");
+    }
+    else
+    {
+        printf("file.....");
+        fp = fopen(directoryName, "r");
+    }
+
+    fBuff = (char *) malloc(filestat.st_size + 1);
+    int readAmt = fread(fBuff, 1, filestat.st_size + 1, fp);
+    string str(fBuff, filestat.st_size);
+    fclose(fp);
+    printf("DONE\nRead: %d\nExpected: %d\n", readAmt, (int) filestat.st_size);
+
+    return str;
 }
