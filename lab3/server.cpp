@@ -10,25 +10,61 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+#include <semaphore.h>
+#include <queue>
+#include <pthread.h>
 
 #include "cs360Utils.h"
 
 using namespace std;
 
 #define SOCKET_ERROR        -1
-#define QUEUE_SIZE          5
+#define QUEUE_SIZE          20
 #define BAD_REQUEST         "400 Bad Request"
 #define NOT_FOUND           "404 Not Found"
 
+sem_t empty, full, mutex;
+string sDirectory;
+
+
+/******************************************************************************
+******************************** QUEUE WRAPPER ********************************
+******************************************************************************/
+class MyQueue
+{
+    std::queue <int> stlqueue;
+public:
+    void push(int sock)
+    {
+        sem_wait(&empty);
+        sem_wait(&mutex);
+        stlqueue.push(sock);
+        sem_post(&mutex);
+        sem_post(&full);
+    }
+    int pop()
+    {
+        sem_wait(&full);
+        sem_wait(&mutex);
+        int rval = stlqueue.front();
+        stlqueue.pop();
+        sem_post(&mutex);
+        sem_post(&empty);
+        return rval;
+    }
+} sockqueue;
 
 /******************************************************************************
 ******************************* HELPER FUNCTIONS ******************************
 ******************************************************************************/
 bool checkArgs(char* argv[], int argc)
 {
-    if (argc != 3)
+    if (argc != 4)
     {
-        printf("\nUsage: server host-port host-dir\n");
+        printf("\nUsage: server host-port threads host-dir\n");
+        printf("    host-port: integer\n");
+        printf("    threads: integer\n");
+        printf("    host-dir: directory\n");
         return false;
     }
     else
@@ -51,6 +87,13 @@ string generateResponseHeaders(string cType, int cSize)
        return ss.str();
 }
 
+void initSems()
+{
+    sem_init(&mutex, PTHREAD_PROCESS_PRIVATE, 1);
+    sem_init(&full, PTHREAD_PROCESS_PRIVATE, 0);
+    sem_init(&empty, PTHREAD_PROCESS_PRIVATE, QUEUE_SIZE);
+}
+
 /******************************************************************************
 **************************** MAIN SERVER FUNCTIONS ****************************
 ******************************************************************************/
@@ -58,17 +101,21 @@ string generateResponseHeaders(string cType, int cSize)
 /** This function processes the request in the given socket using the given
   * directory as a root path.
   **/
-void serve(const int hSocket, const string &sDirectory)
+void *serve(void *ID)
 {
+    stringstream ss;
+    long threadID = (long) ID;
+    int hSocket = sockqueue.pop();
+
     string sHeaders;
     string sBody;
     string sRequest;
     string sPath;
 
-    cout << "\nParsing Headers......\n";
+    ss << "\nParsing Headers......\n";
     vector<char *> headers;
     GetHeaderLines(headers, hSocket, false);
-    cout << "DONE\n";
+    ss << "DONE\n";
 
     struct stat filestat;
     if (headers.size() < 1 || 
@@ -80,12 +127,12 @@ void serve(const int hSocket, const string &sDirectory)
     }
     else
     {
-        cout << "\nGot from browser:\n";
+        ss << "\nGot from browser:\n";
         PrintVector(headers);
-        cout << "\n";
+        ss << "\n";
 
         sRequest = GetRequestedFileName(headers);
-        cout << "Requested: " << sRequest << "\n";
+        ss << "Requested: " << sRequest << "\n";
 
         sPath = sDirectory + sRequest;
 
@@ -112,16 +159,20 @@ void serve(const int hSocket, const string &sDirectory)
             sHeaders = generateResponseHeaders("text/html", sBody.size());
         }
     }
-    cout << sHeaders << "\n";
+    ss << sHeaders << "\n";
     string sResponse = sHeaders + sBody;
     write(hSocket, sResponse.c_str(), sResponse.size());
 
-    cout << "\nClosing the socket";
+    ss << "\nClosing the socket";
     if(close(hSocket) == SOCKET_ERROR)
     {
-        cout << "\nCoult not clost the socket\n";
-        exit(0);
+        ss << "\nCould not close the socket\n";
+        cout << ss.str();
+        pthread_exit(NULL);
     }
+
+    cout << ss.str();
+    return 0;
 }
 
 int main(int argc, char* argv[])
@@ -131,17 +182,20 @@ int main(int argc, char* argv[])
     struct sockaddr_in Address;
     int nAddressSize = sizeof(struct sockaddr_in);
     int nHostPort;
-    string sDirectory;
+    int nThreads;
 
     // Verify arguments
     if (checkArgs(argv, argc))
     {
         nHostPort = atoi(argv[1]);
-        sDirectory = argv[2];
+        nThreads = atoi(argv[2]);
+        sDirectory = argv[3];
     }
     else
         return 0;
 
+    //Initialize Semaphores
+    initSems();
 
     printf("\nStarting server");
 
@@ -174,7 +228,7 @@ int main(int argc, char* argv[])
     }
 
     getsockname(hServerSocket, (struct sockaddr *) &Address,(socklen_t *)&nAddressSize);
-    printf("opened socket as fd (%d) on port (%d) for stream i/o\n",hServerSocket, ntohs(Address.sin_port) );
+    printf("opened socket as fd (%d) on port (%d) for stream i/o\n", hServerSocket, ntohs(Address.sin_port) );
 
     printf("Server\n\
       sin_family        = %d\n\
@@ -186,21 +240,26 @@ int main(int argc, char* argv[])
       );
 
 
-    printf("\nMaking a listen queue of %d elements",QUEUE_SIZE);
-    if(listen(hServerSocket,QUEUE_SIZE) == SOCKET_ERROR)
+    printf("\nMaking a listen queue of %d elements", QUEUE_SIZE);
+    if(listen(hServerSocket, QUEUE_SIZE) == SOCKET_ERROR)
     {
         printf("\nCould not listen\n");
         return 0;
     }
 
-    
+    printf("\nCreating %d threads\n", nThreads);
+    pthread_t threads[nThreads];
+    for (long threadID = 1; threadID <= nThreads; threadID++)
+    {
+        pthread_create(&threads[threadID], NULL, serve, (void *) threadID);
+    }
 
     for(;;)
     {
         cout << "\nWaiting for a connection\n";
-        hSocket = accept(hServerSocket,(struct sockaddr*)&Address,(socklen_t *)&nAddressSize);
+        hSocket = accept(hServerSocket, (struct sockaddr*)&Address, (socklen_t *) &nAddressSize);
 
         printf("\nGot a connection from %X (%d)\n", Address.sin_addr.s_addr, ntohs(Address.sin_port));
-        serve(hSocket, sDirectory);
+        sockqueue.push(hSocket);
     }
 }

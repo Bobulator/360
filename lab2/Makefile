@@ -8,6 +8,9 @@ CFLAGS = -g -Wall
 default: $(TARGET)
 all: default
 
+PORT = 3000
+DIR = /home/bitnami/htdocs/CS360/lab2/testDir
+
 OBJECTS = $(patsubst %.c, %.o, $(wildcard *.c))
 HEADERS = $(wildcard *.h)
 
@@ -20,7 +23,13 @@ $(TARGET): $(OBJECTS)
 	$(CC) $(OBJECTS) -Wall $(LIBS) -o $@
 
 run: server
-	./server 3000 /home/bitnami/htdocs/CS360/lab2/test
+	./server $(PORT) $(DIR)
+
+valgrind: server
+	valgrind --tool=memcheck ./server $(PORT) $(DIR)
+
+gdb: server
+	gdb --args server $(PORT) $(DIR)
 
 clean:
 	-rm -f *.o

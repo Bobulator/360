@@ -8,7 +8,8 @@ semdemo: semdemo.cpp
 	g++ -o semdemo semdemo.cpp -lpthread
 seminit: seminit.cpp
 	g++ -o seminit seminit.cpp -lpthread
-thread: thread.c
-	g++ -o thread thread.c -lpthread
-test: testThread.c
-	g++ -o test testThread.c -lpthread
+thread: thread.cpp
+	g++ -o thread thread.c -pthread
+test: testThread.cpp
+	g++ -lpthread testThread.cpp -o test
+

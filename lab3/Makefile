@@ -1,5 +1,5 @@
 TARGET = server
-LIBS = -lm
+LIBS = -lm -lpthread
 CC = g++
 CFLAGS = -g -Wall
 
@@ -9,12 +9,13 @@ default: $(TARGET)
 all: default
 
 PORT = 3000
-DIR = /home/bitnami/htdocs/CS360/lab3/testDir
+THREADS = 10
+DIR = /home/cbacon/Documents/CS360/lab3/testDir
 
-OBJECTS = $(patsubst %.c, %.o, $(wildcard *.c))
+OBJECTS = $(patsubst %.cpp, %.o, $(wildcard *.cpp))
 HEADERS = $(wildcard *.h)
 
-%.o: %.c $(HEADERS)
+%.o: %.cpp $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 .PRECIOUS: $(TARGET) $(OBJECTS)
@@ -23,13 +24,13 @@ $(TARGET): $(OBJECTS)
 	$(CC) $(OBJECTS) -Wall $(LIBS) -o $@
 
 run: server
-	./server $(PORT) $(DIR)
+	./server $(PORT) $(THREADS) $(DIR)
 
 valgrind: server
-	valgrind --tool=memcheck ./server $(PORT) $(DIR)
+	valgrind --tool=memcheck ./server $(PORT) $(THREADS) $(DIR)
 
 gdb: server
-	gdb --args server $(PORT) $(DIR)
+	gdb --args server $(PORT) $(THREADS) $(DIR)
 
 clean:
 	-rm -f *.o

@@ -4,6 +4,7 @@
 #include <queue>
 #include <iostream>
 #include <semaphore.h>
+#include <sstream>
 
 sem_t empty, full, mutex;
 
@@ -33,13 +34,14 @@ public:
 
 void *howdy(void *arg)
 {
+	std::stringstream ss;
 	for(;;)
 	{
-		std::cout<< "GOT " << sockqueue.pop() << std::endl;
+		ss.str("");
+
+		ss << (long) arg << " GOT " << sockqueue.pop() << std::endl;
+		std::cout << ss.str();
 	}
-	int tid;
-	tid = (long)arg;
-	printf("Hi %d\n",tid);
 }
 
 
@@ -48,16 +50,16 @@ main()
 {
 #define NTHREADS 10
 #define NQUEUE 20
-	long threadid;
+	long number;
 	pthread_t threads[NTHREADS];
 	sem_init(&mutex, PTHREAD_PROCESS_PRIVATE, 1);
 	sem_init(&full, PTHREAD_PROCESS_PRIVATE, 0);
 	sem_init(&empty, PTHREAD_PROCESS_PRIVATE, NQUEUE);
 
-	for (threadid = 0; threadid < NTHREADS; threadid++)
+	for (number = 1; number <= NTHREADS; number++)
 	{
-		pthread_create(&threads[threadid], NULL,
-			       howdy, (void *) threadid);
+		pthread_create(&threads[number], NULL,
+			       howdy, (void *) number);
 	}
 	for (int i = 0; i < NQUEUE; i++)
 	{
