@@ -9,7 +9,7 @@ default: $(TARGET)
 all: default
 
 PORT = 3000
-DIR = /home/cbacon/Documents/CS360/lab3/testDir
+DIR = /home/bitnami/htdocs/CS360/lab3/testDir
 
 OBJECTS = $(patsubst %.c, %.o, $(wildcard *.c))
 HEADERS = $(wildcard *.h)
