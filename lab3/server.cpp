@@ -174,18 +174,23 @@ void serve(int hSocket, const string &sDirectory, stringstream &ss)
     return;
 }
 
-void *threadFunc(void *arg)
+void *threadFunc(void *thread_params)
 {
-    struct thread_params *tp = (struct thread_params*) arg;
+    struct thread_params *tp = (struct thread_params*) thread_params;
+    long threadID = tp->threadID;
+    string sDirectory = tp->dir;
+    sem_post(&mutex);
+
     stringstream ss;
     int hSocket;
+
     for (;;)
     {
         hSocket = sockqueue.pop();
-        ss << "Thread " << tp->threadID; 
+        ss << "Thread " << threadID; 
         ss << " processing task on socket " << hSocket << endl;
-        serve(hSocket, tp->dir, ss);
-        ss << "Thread " << tp->threadID << " DONE" << endl;
+        serve(hSocket, sDirectory, ss);
+        ss << "Thread " << threadID << " DONE" << endl;
         cout << ss.str();
         ss.str("");
     }
@@ -268,11 +273,12 @@ int main(int argc, char* argv[])
 
     printf("\nCreating %d threads\n", nThreads);
     pthread_t threads[nThreads];
+    struct thread_params tp;
+    tp.dir = sDirectory;
     for (long threadID = 1; threadID <= nThreads; threadID++)
     {
-        struct thread_params tp;
+        sem_wait(&mutex);
         tp.threadID = threadID;
-        tp.dir = sDirectory;
         pthread_create(&threads[threadID], NULL, threadFunc, (void *) &tp);
     }
 
