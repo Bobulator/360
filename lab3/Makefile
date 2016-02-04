@@ -27,7 +27,7 @@ run: server
 	./server $(PORT) $(THREADS) $(DIR)
 
 valgrind: server
-	valgrind --tool=memcheck ./server $(PORT) $(THREADS) $(DIR)
+	valgrind --tool=memcheck --leak-check=full ./server $(PORT) $(THREADS) $(DIR)
 
 gdb: server
 	gdb --args server $(PORT) $(THREADS) $(DIR)

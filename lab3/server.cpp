@@ -24,7 +24,12 @@ using namespace std;
 #define NOT_FOUND           "404 Not Found"
 
 sem_t empty, full, mutex;
-string sDirectory;
+
+struct thread_params
+{
+    long threadID;
+    string dir;
+};
 
 
 /******************************************************************************
@@ -101,12 +106,8 @@ void initSems()
 /** This function processes the request in the given socket using the given
   * directory as a root path.
   **/
-void *serve(void *ID)
+void serve(int hSocket, const string &sDirectory, stringstream &ss)
 {
-    stringstream ss;
-    long threadID = (long) ID;
-    int hSocket = sockqueue.pop();
-
     string sHeaders;
     string sBody;
     string sRequest;
@@ -163,15 +164,32 @@ void *serve(void *ID)
     string sResponse = sHeaders + sBody;
     write(hSocket, sResponse.c_str(), sResponse.size());
 
-    ss << "\nClosing the socket";
+    ss << "\nClosing the socket\n";
     if(close(hSocket) == SOCKET_ERROR)
     {
         ss << "\nCould not close the socket\n";
         cout << ss.str();
-        pthread_exit(NULL);
     }
 
-    cout << ss.str();
+    return;
+}
+
+void *threadFunc(void *arg)
+{
+    struct thread_params *tp = (struct thread_params*) arg;
+    stringstream ss;
+    int hSocket;
+    for (;;)
+    {
+        hSocket = sockqueue.pop();
+        ss << "Thread " << tp->threadID; 
+        ss << " processing task on socket " << hSocket << endl;
+        serve(hSocket, tp->dir, ss);
+        ss << "Thread " << tp->threadID << " DONE" << endl;
+        cout << ss.str();
+        ss.str("");
+    }
+
     return 0;
 }
 
@@ -183,6 +201,7 @@ int main(int argc, char* argv[])
     int nAddressSize = sizeof(struct sockaddr_in);
     int nHostPort;
     int nThreads;
+    string sDirectory;
 
     // Verify arguments
     if (checkArgs(argv, argc))
@@ -251,7 +270,10 @@ int main(int argc, char* argv[])
     pthread_t threads[nThreads];
     for (long threadID = 1; threadID <= nThreads; threadID++)
     {
-        pthread_create(&threads[threadID], NULL, serve, (void *) threadID);
+        struct thread_params tp;
+        tp.threadID = threadID;
+        tp.dir = sDirectory;
+        pthread_create(&threads[threadID], NULL, threadFunc, (void *) &tp);
     }
 
     for(;;)
