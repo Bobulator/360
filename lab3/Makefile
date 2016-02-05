@@ -10,7 +10,7 @@ all: default
 
 PORT = 3000
 THREADS = 10
-DIR = /home/cbacon/Documents/CS360/lab3/testDir
+DIR = /home/bitnami/htdocs/CS360/lab3/testDir
 
 OBJECTS = $(patsubst %.cpp, %.o, $(wildcard *.cpp))
 HEADERS = $(wildcard *.h)
