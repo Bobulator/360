@@ -13,6 +13,7 @@
 #include <semaphore.h>
 #include <queue>
 #include <pthread.h>
+#include <signal.h>
 
 #include "cs360Utils.h"
 
@@ -218,8 +219,11 @@ int main(int argc, char* argv[])
     else
         return 0;
 
-    //Initialize Semaphores
+    // Initialize Semaphores
     initSems();
+    
+    // Ignore SIGPIPE
+    signal(SIGPIPE, SIG_IGN);
 
     printf("\nStarting server");
 
