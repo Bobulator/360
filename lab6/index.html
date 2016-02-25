@@ -5,20 +5,51 @@
 <script>
 $(document).ready(function() {
 $("#cityfield").keyup(function() {
+
+  // Query the Utah cities rest service API for cities based on what's been typed so far
   var url = "https://students.cs.byu.edu/~clement/CS360/ajax/getcity.cgi?q="+$("#cityfield").val();
+
+  // Populate the hint spand with matching cities
   $.getJSON(url,function(data) {
-    var everything;
-    everything = "<ul>";
+    var matchingCities;
+    matchingCities = "<ul>";
     $.each(data, function(i,item) {
-      everything += "<li> "+data[i].city;
+      matchingCities += "<li> "+data[i].city;
     });
       
-    everything += "</ul>";
-    $("#txtHint").html(everything);
+    matchingCities += "</ul>";
+    $("#txtHint").html(matchingCities);
   });
 });
-$("#submit").click(function() {
-  $("#txtHint").html($("#cityfield").val());
+$("#buttom").click(function(event) {
+  
+  event.preventDefault();
+  // Display the typed city in the "dispcity" text area
+  var city = $("#cityfield").val()
+  $("#dispcity").text(city);
+
+  // Query the wunderground API for weather info
+  var wgurl = "https://api.wunderground.com/api/82975b43eac78dd6/geolookup/conditions/q/Utah/";
+  wgurl += city + ".json";
+  console.log(wgurl);
+  $.ajax({
+    url : wgurl,
+    dataType : "jsonp",
+    success : function(data) {
+      // Display results in the weather div
+      var location = data['location']['city'];
+      var temp_string = data['current_observation']['temperature_string'];
+      var current_weather = data['current_observation']['weather'];
+      var weatherData;
+      weatherData = "<ul>";
+      weatherData = "<ul>";
+      weatherData += "<li>Location: " + location;
+      weatherData += "<li>Temperature: " + temp_string;
+      weatherData += "<li>Weather: " + current_weather;
+      weatherData += "</ul>";
+      $("#weather").html(weatherData);
+    }
+  }
 });
 });
 </script>
