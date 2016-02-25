@@ -4,7 +4,7 @@
 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <script>
 $(document).ready(function() {
-$( "#cityfield" ).keyup(function() {
+$("#cityfield").keyup(function() {
   var url = "https://students.cs.byu.edu/~clement/CS360/ajax/getcity.cgi?q="+$("#cityfield").val();
   $.getJSON(url,function(data) {
     var everything;
@@ -17,8 +17,12 @@ $( "#cityfield" ).keyup(function() {
     $("#txtHint").html(everything);
   });
 });
+$("#submit").click(function() {
+  $("#txtHint").html($("#cityfield").val());
+});
 });
 </script>
+
 </head>
 
 <body>
