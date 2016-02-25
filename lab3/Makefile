@@ -9,7 +9,7 @@ default: $(TARGET)
 all: default
 
 PORT = 3000
-THREADS = 10
+THREADS = 4
 DIR = /home/bitnami/htdocs/CS360/lab3/testDir
 
 OBJECTS = $(patsubst %.cpp, %.o, $(wildcard *.cpp))

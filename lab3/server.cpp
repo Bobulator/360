@@ -20,7 +20,7 @@
 using namespace std;
 
 #define SOCKET_ERROR        -1
-#define QUEUE_SIZE          20
+#define QUEUE_SIZE          1000
 #define BAD_REQUEST         "400 Bad Request"
 #define NOT_FOUND           "404 Not Found"
 
