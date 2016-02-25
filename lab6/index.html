@@ -7,8 +7,8 @@ $(document).ready(function() {
 $("#cityfield").keyup(function() {
 
   // Query the Utah cities rest service API for cities based on what's been typed so far
-  var url = "https://students.cs.byu.edu/~clement/CS360/ajax/getcity.cgi?q="+$("#cityfield").val();
-
+  var url = "https://students.cs.byu.edu/~clement/CS360/ajax/getcity.cgi?q=" + $("#cityfield").val();
+  //console.log(url);
   // Populate the hint spand with matching cities
   $.getJSON(url,function(data) {
     var matchingCities;
@@ -21,7 +21,7 @@ $("#cityfield").keyup(function() {
     $("#txtHint").html(matchingCities);
   });
 });
-$("#buttom").click(function(event) {
+$("#button").click(function(event) {
   
   event.preventDefault();
   // Display the typed city in the "dispcity" text area
@@ -31,7 +31,7 @@ $("#buttom").click(function(event) {
   // Query the wunderground API for weather info
   var wgurl = "https://api.wunderground.com/api/82975b43eac78dd6/geolookup/conditions/q/Utah/";
   wgurl += city + ".json";
-  console.log(wgurl);
+  //console.log(wgurl);
   $.ajax({
     url : wgurl,
     dataType : "jsonp",
@@ -49,7 +49,7 @@ $("#buttom").click(function(event) {
       weatherData += "</ul>";
       $("#weather").html(weatherData);
     }
-  }
+  });
 });
 });
 </script>
