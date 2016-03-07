@@ -8,8 +8,8 @@ $(document).ready(function() {
 $("#cityfield").keyup(function() {
 
   // Get possible cities using the server's getcity REST service
-  var url = "http://54.200.138.187:3000/getcity?q=" + $('#cityfield').val();
-  
+  //var url = "http://54.200.138.187:3000/getcity?q=" + $('#cityfield').val();
+  var url = "getcity?q=" + $('#cityfield').val();
   // Populate the hint span with matching cities
   $.getJSON(url, function(data) {
     var matchingCities;
@@ -30,10 +30,8 @@ $("#button").click(function(event) {
   var city = $("#cityfield").val()
   $("#dispcity").text(city);
 
-  // Query the wunderground API for weather info
-  //var wgurl = "https://api.wunderground.com/api/82975b43eac78dd6/geolookup/conditions/q/Utah/";
-  //wgurl += city + ".json";
-  var wikiurl = "http://54.200.138.187:3000/getwiki?q=" + city;
+  //var wikiurl = "http://54.200.138.187:3000/getwiki?q=" + city;
+  var wikiurl = 'getwiki?q=' + city;
   $.ajax({
     url : wikiurl,
 	success : function(data) {
@@ -46,35 +44,6 @@ $("#button").click(function(event) {
 	  $('#wiki').html(wikidata);
 	}
   });
-
-  /*$.ajax({
-    url : wdurl,
-    dataType : "jsonp",
-    success : function(data) {
-      // Display results in the weather div
-	  console.log(data);
-      var location = data['location']['city'];
-      var temp_string = data['current_observation']['temperature_string'];
-      var current_weather = data['current_observation']['weather'];
-      var weatherData;
-      weatherData = "<ul>";
-      weatherData = "<ul>";
-      weatherData += "<li>Location: " + location;
-      weatherData += "<li>Temperature: " + temp_string;
-      weatherData += "<li>Weather: " + current_weather;
-      weatherData += "</ul>";
-      $("#weather").html(weatherData);
-      
-	  // Create Google Map
-	  var ln = parseFloat(data['location']['lon']);
-	  var lt = parseFloat(data['location']['lat']);
-	  var mapOptions = {
-		center: new google.maps.LatLng(lt, ln),
-		zoom: 12
-	  }
-	  var map = new google.maps.Map(document.getElementById('map'), mapOptions);
-	}
-  });*/
 });
 });
 </script>
