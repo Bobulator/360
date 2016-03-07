@@ -1,0 +1,105 @@
+<html>
+<head>
+<title>City Finder</title>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBV-Fg2XBrgMA598e0y1jC92bC390isjMg"></script>
+<script>
+$(document).ready(function() {
+$("#cityfield").keyup(function() {
+
+  // Get possible cities using the server's getcity REST service
+  var url = "http://54.200.138.187:3000/getcity?q=" + $('#cityfield').val();
+  
+  // Populate the hint span with matching cities
+  $.getJSON(url, function(data) {
+    var matchingCities;
+    matchingCities = "<ul>";
+    $.each(data, function(i,item) {
+      matchingCities += "<li> "+data[i].city;
+    });
+      
+    matchingCities += "</ul>";
+    $("#txtHint").html(matchingCities);
+  });
+});
+
+$("#button").click(function(event) {
+  
+  event.preventDefault();
+  // Display the typed city in the "dispcity" text area
+  var city = $("#cityfield").val()
+  $("#dispcity").text(city);
+
+  // Query the wunderground API for weather info
+  //var wgurl = "https://api.wunderground.com/api/82975b43eac78dd6/geolookup/conditions/q/Utah/";
+  //wgurl += city + ".json";
+  var wikiurl = "http://54.200.138.187:3000/getwiki?q=" + city;
+  $.ajax({
+    url : wikiurl,
+	success : function(data) {
+      //console.log(data);
+	  var wikidata = '';
+	  for(page in data['query']['pages']) {
+	    console.log(page);
+		wikidata += data['query']['pages'][page]['extract'];
+	  }
+	  $('#wiki').html(wikidata);
+	}
+  });
+
+  /*$.ajax({
+    url : wdurl,
+    dataType : "jsonp",
+    success : function(data) {
+      // Display results in the weather div
+	  console.log(data);
+      var location = data['location']['city'];
+      var temp_string = data['current_observation']['temperature_string'];
+      var current_weather = data['current_observation']['weather'];
+      var weatherData;
+      weatherData = "<ul>";
+      weatherData = "<ul>";
+      weatherData += "<li>Location: " + location;
+      weatherData += "<li>Temperature: " + temp_string;
+      weatherData += "<li>Weather: " + current_weather;
+      weatherData += "</ul>";
+      $("#weather").html(weatherData);
+      
+	  // Create Google Map
+	  var ln = parseFloat(data['location']['lon']);
+	  var lt = parseFloat(data['location']['lat']);
+	  var mapOptions = {
+		center: new google.maps.LatLng(lt, ln),
+		zoom: 12
+	  }
+	  var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+	}
+  });*/
+});
+});
+</script>
+<style>
+  html, body {
+    height: 100%;
+	margin: 0;
+	padding: 0;
+  }
+  #map {
+    height: 100%;
+  }
+</style>
+</head>
+
+<body>
+<form>
+Enter A Utah City: <input type="text" id="cityfield" value=""><br>
+Suggestion: <span id="txtHint">Empty</span>
+<input id="button" type="submit" value="Submit">
+</form>
+<p>City</p>
+<textarea id="dispcity">No City</textarea>
+<p>From Wikipedia:</p>
+<div id="wiki">Type in a city to get wiki data</div>
+<div id="map"></div>
+</body>
+</html>
