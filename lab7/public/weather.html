@@ -34,15 +34,15 @@ $("#button").click(function(event) {
   var wikiurl = 'getwiki?q=' + city;
   $.ajax({
     url : wikiurl,
-	success : function(data) {
+      success : function(data) {
       //console.log(data);
-	  var wikidata = '';
-	  for(page in data['query']['pages']) {
-	    console.log(page);
-		wikidata += data['query']['pages'][page]['extract'];
-	  }
-	  $('#wiki').html(wikidata);
+        var wikidata = '';
+	for(page in data['query']['pages']) {
+	  console.log(page);
+	  wikidata += data['query']['pages'][page]['extract'];
 	}
+	$('#wiki').html(wikidata);
+      }
   });
 });
 });
