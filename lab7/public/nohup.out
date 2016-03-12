@@ -1,0 +1,4 @@
+
+> lab7@0.0.0 start /opt/bitnami/apache2/htdocs/CS360/lab7
+> node ./bin/www
+

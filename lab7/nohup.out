@@ -1,0 +1,26 @@
+
+> lab7@0.0.0 start /opt/bitnami/apache2/htdocs/CS360/lab7
+> node ./bin/www
+
+Port 3000 is already in use
+
+npm ERR! Linux 3.13.0-71-generic
+npm ERR! argv "/opt/bitnami/nodejs/bin/.node.bin" "/opt/bitnami/nodejs/bin/npm" "start"
+npm ERR! node v5.1.1
+npm ERR! npm  v3.3.12
+npm ERR! code ELIFECYCLE
+npm ERR! lab7@0.0.0 start: `node ./bin/www`
+npm ERR! Exit status 1
+npm ERR! 
+npm ERR! Failed at the lab7@0.0.0 start script 'node ./bin/www'.
+npm ERR! Make sure you have the latest version of node.js and npm installed.
+npm ERR! If you do, this is most likely a problem with the lab7 package,
+npm ERR! not with npm itself.
+npm ERR! Tell the author that this fails on your system:
+npm ERR!     node ./bin/www
+npm ERR! You can get their info via:
+npm ERR!     npm owner ls lab7
+npm ERR! There is likely additional logging output above.
+
+npm ERR! Please include the following file with any support request:
+npm ERR!     /opt/bitnami/apache2/htdocs/CS360/lab7/npm-debug.log
