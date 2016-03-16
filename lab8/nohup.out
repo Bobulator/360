@@ -1,0 +1,535 @@
+
+> comments@0.0.0 start /opt/bitnami/apache2/htdocs/CS360/lab8
+> node ./bin/www
+
+Connected
+
+> comments@0.0.0 start /opt/bitnami/apache2/htdocs/CS360/lab8
+> node ./bin/www
+
+Connected
+[0mGET / [36m304 [0m6.311 ms - -[0m
+[0mGET /javascripts/comments.js [36m304 [0m1.756 ms - -[0m
+[0mGET / [36m304 [0m0.846 ms - -[0m
+[0mGET /javascripts/comments.js [36m304 [0m0.408 ms - -[0m
+[0mGET / [36m304 [0m0.341 ms - -[0m
+[0mGET /javascripts/comments.js [36m304 [0m0.381 ms - -[0m
+POST comment route
+{ Name: 'Still', Comment: 'connected' }
+{ _id: 56e473331fa100990373e230,
+  Comment: 'connected',
+  Name: 'Still' }
+{ _id: 56e473331fa100990373e230,
+  Comment: 'connected',
+  Name: 'Still',
+  __v: 0 }
+[0mPOST /comment [32m200 [0m41.194 ms - 2[0m
+In the GET route
+[ { __v: 0,
+    Comment: 'Goose',
+    Name: 'Duck',
+    _id: 56e06b8a73b3a53a5e4df26a },
+  { __v: 0, Comment: '', Name: '', _id: 56e45a053a4dd51d7df7dc21 },
+  { __v: 0,
+    Comment: 'Words Words Words Words',
+    Name: 'Ton',
+    _id: 56e4602865bb45e17d1ffd96 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f798668f40b0285f940 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f7d8668f40b0285f941 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f7f8668f40b0285f942 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f808668f40b0285f943 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f818668f40b0285f944 },
+  { __v: 0,
+    Comment: 'This project deserves an A',
+    Name: 'Voice of Truth',
+    _id: 56e470311b36dc54026cc387 },
+  { __v: 0,
+    Comment: 'connected',
+    Name: 'Still',
+    _id: 56e473331fa100990373e230 } ]
+[0mGET /comment [32m200 [0m17.613 ms - 810[0m
+[0mGET / [32m200 [0m3.170 ms - 652[0m
+[0mGET /javascripts/comments.js [32m200 [0m1.471 ms - 1406[0m
+[0mGET /favicon.ico [33m404 [0m366.026 ms - 1850[0m
+In the GET route
+[ { __v: 0,
+    Comment: 'Goose',
+    Name: 'Duck',
+    _id: 56e06b8a73b3a53a5e4df26a },
+  { __v: 0, Comment: '', Name: '', _id: 56e45a053a4dd51d7df7dc21 },
+  { __v: 0,
+    Comment: 'Words Words Words Words',
+    Name: 'Ton',
+    _id: 56e4602865bb45e17d1ffd96 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f798668f40b0285f940 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f7d8668f40b0285f941 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f7f8668f40b0285f942 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f808668f40b0285f943 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f818668f40b0285f944 },
+  { __v: 0,
+    Comment: 'This project deserves an A',
+    Name: 'Voice of Truth',
+    _id: 56e470311b36dc54026cc387 },
+  { __v: 0,
+    Comment: 'connected',
+    Name: 'Still',
+    _id: 56e473331fa100990373e230 } ]
+[0mGET /comment [32m200 [0m7.519 ms - 810[0m
+[0mGET / [36m304 [0m1.033 ms - -[0m
+[0mGET /javascripts/comments.js [36m304 [0m0.522 ms - -[0m
+In the GET route
+[ { __v: 0,
+    Comment: 'Goose',
+    Name: 'Duck',
+    _id: 56e06b8a73b3a53a5e4df26a },
+  { __v: 0, Comment: '', Name: '', _id: 56e45a053a4dd51d7df7dc21 },
+  { __v: 0,
+    Comment: 'Words Words Words Words',
+    Name: 'Ton',
+    _id: 56e4602865bb45e17d1ffd96 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f798668f40b0285f940 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f7d8668f40b0285f941 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f7f8668f40b0285f942 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f808668f40b0285f943 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f818668f40b0285f944 },
+  { __v: 0,
+    Comment: 'This project deserves an A',
+    Name: 'Voice of Truth',
+    _id: 56e470311b36dc54026cc387 },
+  { __v: 0,
+    Comment: 'connected',
+    Name: 'Still',
+    _id: 56e473331fa100990373e230 } ]
+[0mGET /comment [36m304 [0m6.800 ms - -[0m
+POST comment route
+{ Name: 'Still', Comment: 'connected' }
+{ _id: 56e6f84b1fa100990373e231,
+  Comment: 'connected',
+  Name: 'Still' }
+{ _id: 56e6f84b1fa100990373e231,
+  Comment: 'connected',
+  Name: 'Still',
+  __v: 0 }
+[0mPOST /comment [32m200 [0m5.218 ms - 2[0m
+In the GET route
+[ { __v: 0,
+    Comment: 'Goose',
+    Name: 'Duck',
+    _id: 56e06b8a73b3a53a5e4df26a },
+  { __v: 0, Comment: '', Name: '', _id: 56e45a053a4dd51d7df7dc21 },
+  { __v: 0,
+    Comment: 'Words Words Words Words',
+    Name: 'Ton',
+    _id: 56e4602865bb45e17d1ffd96 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f798668f40b0285f940 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f7d8668f40b0285f941 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f7f8668f40b0285f942 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f808668f40b0285f943 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f818668f40b0285f944 },
+  { __v: 0,
+    Comment: 'This project deserves an A',
+    Name: 'Voice of Truth',
+    _id: 56e470311b36dc54026cc387 },
+  { __v: 0,
+    Comment: 'connected',
+    Name: 'Still',
+    _id: 56e473331fa100990373e230 },
+  { __v: 0,
+    Comment: 'connected',
+    Name: 'Still',
+    _id: 56e6f84b1fa100990373e231 } ]
+[0mGET /comment [32m200 [0m10.588 ms - 890[0m
+Terminated
+
+npm ERR! Linux 3.13.0-71-generic
+npm ERR! argv "/opt/bitnami/nodejs/bin/.node.bin" "/opt/bitnami/nodejs/bin/npm" "start"
+npm ERR! node v5.1.1
+npm ERR! npm  v3.3.12
+npm ERR! code ELIFECYCLE
+npm ERR! comments@0.0.0 start: `node ./bin/www`
+npm ERR! Exit status 143
+npm ERR! 
+npm ERR! Failed at the comments@0.0.0 start script 'node ./bin/www'.
+npm ERR! Make sure you have the latest version of node.js and npm installed.
+npm ERR! If you do, this is most likely a problem with the comments package,
+npm ERR! not with npm itself.
+npm ERR! Tell the author that this fails on your system:
+npm ERR!     node ./bin/www
+npm ERR! You can get their info via:
+npm ERR!     npm owner ls comments
+npm ERR! There is likely additional logging output above.
+
+npm ERR! Please include the following file with any support request:
+npm ERR!     /opt/bitnami/apache2/htdocs/CS360/lab8/npm-debug.log
+
+> comments@0.0.0 start /opt/bitnami/apache2/htdocs/CS360/lab8
+> node ./bin/www
+
+Connected
+
+> comments@0.0.0 start /opt/bitnami/apache2/htdocs/CS360/lab8
+> node ./bin/www
+
+Port 3005 is already in use
+
+npm ERR! Linux 3.13.0-71-generic
+npm ERR! argv "/opt/bitnami/nodejs/bin/.node.bin" "/opt/bitnami/nodejs/bin/npm" "start"
+npm ERR! node v5.1.1
+npm ERR! npm  v3.3.12
+npm ERR! code ELIFECYCLE
+npm ERR! comments@0.0.0 start: `node ./bin/www`
+npm ERR! Exit status 1
+npm ERR! 
+npm ERR! Failed at the comments@0.0.0 start script 'node ./bin/www'.
+npm ERR! Make sure you have the latest version of node.js and npm installed.
+npm ERR! If you do, this is most likely a problem with the comments package,
+npm ERR! not with npm itself.
+npm ERR! Tell the author that this fails on your system:
+npm ERR!     node ./bin/www
+npm ERR! You can get their info via:
+npm ERR!     npm owner ls comments
+npm ERR! There is likely additional logging output above.
+
+npm ERR! Please include the following file with any support request:
+npm ERR!     /opt/bitnami/apache2/htdocs/CS360/lab8/npm-debug.log
+
+> comments@0.0.0 start /opt/bitnami/apache2/htdocs/CS360/lab8
+> node ./bin/www
+
+Connected
+[0mGET / [36m304 [0m6.714 ms - -[0m
+[0mGET / [36m304 [0m1.597 ms - -[0m
+[0mGET /javascripts/comments.js [36m304 [0m1.152 ms - -[0m
+In the GET route
+[ { __v: 0,
+    Comment: 'Goose',
+    Name: 'Duck',
+    _id: 56e06b8a73b3a53a5e4df26a },
+  { __v: 0, Comment: '', Name: '', _id: 56e45a053a4dd51d7df7dc21 },
+  { __v: 0,
+    Comment: 'Words Words Words Words',
+    Name: 'Ton',
+    _id: 56e4602865bb45e17d1ffd96 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f798668f40b0285f940 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f7d8668f40b0285f941 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f7f8668f40b0285f942 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f808668f40b0285f943 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f818668f40b0285f944 },
+  { __v: 0,
+    Comment: 'This project deserves an A',
+    Name: 'Voice of Truth',
+    _id: 56e470311b36dc54026cc387 },
+  { __v: 0,
+    Comment: 'connected',
+    Name: 'Still',
+    _id: 56e473331fa100990373e230 },
+  { __v: 0,
+    Comment: 'connected',
+    Name: 'Still',
+    _id: 56e6f84b1fa100990373e231 } ]
+[0mGET /comment [36m304 [0m26.420 ms - -[0m
+In the GET route
+[ { __v: 0,
+    Comment: 'Goose',
+    Name: 'Duck',
+    _id: 56e06b8a73b3a53a5e4df26a },
+  { __v: 0, Comment: '', Name: '', _id: 56e45a053a4dd51d7df7dc21 },
+  { __v: 0,
+    Comment: 'Words Words Words Words',
+    Name: 'Ton',
+    _id: 56e4602865bb45e17d1ffd96 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f798668f40b0285f940 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f7d8668f40b0285f941 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f7f8668f40b0285f942 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f808668f40b0285f943 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f818668f40b0285f944 },
+  { __v: 0,
+    Comment: 'This project deserves an A',
+    Name: 'Voice of Truth',
+    _id: 56e470311b36dc54026cc387 },
+  { __v: 0,
+    Comment: 'connected',
+    Name: 'Still',
+    _id: 56e473331fa100990373e230 },
+  { __v: 0,
+    Comment: 'connected',
+    Name: 'Still',
+    _id: 56e6f84b1fa100990373e231 } ]
+[0mGET /comment [36m304 [0m7.447 ms - -[0m
+[0mGET / [36m304 [0m0.430 ms - -[0m
+[0mGET / [32m200 [0m2.588 ms - 652[0m
+[0mGET /javascripts/comments.js [36m304 [0m0.373 ms - -[0m
+In the GET route
+[ { __v: 0,
+    Comment: 'Goose',
+    Name: 'Duck',
+    _id: 56e06b8a73b3a53a5e4df26a },
+  { __v: 0, Comment: '', Name: '', _id: 56e45a053a4dd51d7df7dc21 },
+  { __v: 0,
+    Comment: 'Words Words Words Words',
+    Name: 'Ton',
+    _id: 56e4602865bb45e17d1ffd96 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f798668f40b0285f940 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f7d8668f40b0285f941 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f7f8668f40b0285f942 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f808668f40b0285f943 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f818668f40b0285f944 },
+  { __v: 0,
+    Comment: 'This project deserves an A',
+    Name: 'Voice of Truth',
+    _id: 56e470311b36dc54026cc387 },
+  { __v: 0,
+    Comment: 'connected',
+    Name: 'Still',
+    _id: 56e473331fa100990373e230 },
+  { __v: 0,
+    Comment: 'connected',
+    Name: 'Still',
+    _id: 56e6f84b1fa100990373e231 } ]
+[0mGET /comment [36m304 [0m7.664 ms - -[0m
+[0mGET / [36m304 [0m0.683 ms - -[0m
+[0mGET /javascripts/comments.js [36m304 [0m0.315 ms - -[0m
+In the GET route
+[ { __v: 0,
+    Comment: 'Goose',
+    Name: 'Duck',
+    _id: 56e06b8a73b3a53a5e4df26a },
+  { __v: 0, Comment: '', Name: '', _id: 56e45a053a4dd51d7df7dc21 },
+  { __v: 0,
+    Comment: 'Words Words Words Words',
+    Name: 'Ton',
+    _id: 56e4602865bb45e17d1ffd96 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f798668f40b0285f940 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f7d8668f40b0285f941 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f7f8668f40b0285f942 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f808668f40b0285f943 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f818668f40b0285f944 },
+  { __v: 0,
+    Comment: 'This project deserves an A',
+    Name: 'Voice of Truth',
+    _id: 56e470311b36dc54026cc387 },
+  { __v: 0,
+    Comment: 'connected',
+    Name: 'Still',
+    _id: 56e473331fa100990373e230 },
+  { __v: 0,
+    Comment: 'connected',
+    Name: 'Still',
+    _id: 56e6f84b1fa100990373e231 } ]
+[0mGET /comment [36m304 [0m9.714 ms - -[0m
+[0mGET / [32m200 [0m1.573 ms - 652[0m
+[0mGET /javascripts/comments.js [32m200 [0m1.904 ms - 1406[0m
+[0mGET /favicon.ico [33m404 [0m364.679 ms - 1850[0m
+POST comment route
+{ Name: 'a', Comment: 'a' }
+{ _id: 56e8756d852b4aa221cdc2f7, Comment: 'a', Name: 'a' }
+{ _id: 56e8756d852b4aa221cdc2f7, Comment: 'a', Name: 'a', __v: 0 }
+[0mPOST /comment [32m200 [0m31.914 ms - 2[0m
+In the GET route
+[ { __v: 0,
+    Comment: 'Goose',
+    Name: 'Duck',
+    _id: 56e06b8a73b3a53a5e4df26a },
+  { __v: 0, Comment: '', Name: '', _id: 56e45a053a4dd51d7df7dc21 },
+  { __v: 0,
+    Comment: 'Words Words Words Words',
+    Name: 'Ton',
+    _id: 56e4602865bb45e17d1ffd96 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f798668f40b0285f940 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f7d8668f40b0285f941 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f7f8668f40b0285f942 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f808668f40b0285f943 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f818668f40b0285f944 },
+  { __v: 0,
+    Comment: 'This project deserves an A',
+    Name: 'Voice of Truth',
+    _id: 56e470311b36dc54026cc387 },
+  { __v: 0,
+    Comment: 'connected',
+    Name: 'Still',
+    _id: 56e473331fa100990373e230 },
+  { __v: 0,
+    Comment: 'connected',
+    Name: 'Still',
+    _id: 56e6f84b1fa100990373e231 },
+  { __v: 0, Comment: 'a', Name: 'a', _id: 56e8756d852b4aa221cdc2f7 } ]
+[0mGET /comment [32m200 [0m6.882 ms - 958[0m
+In the GET route
+[ { __v: 0,
+    Comment: 'Goose',
+    Name: 'Duck',
+    _id: 56e06b8a73b3a53a5e4df26a },
+  { __v: 0, Comment: '', Name: '', _id: 56e45a053a4dd51d7df7dc21 },
+  { __v: 0,
+    Comment: 'Words Words Words Words',
+    Name: 'Ton',
+    _id: 56e4602865bb45e17d1ffd96 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f798668f40b0285f940 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f7d8668f40b0285f941 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f7f8668f40b0285f942 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f808668f40b0285f943 },
+  { __v: 0,
+    Comment: 'Tested',
+    Name: 'Tester',
+    _id: 56e46f818668f40b0285f944 },
+  { __v: 0,
+    Comment: 'This project deserves an A',
+    Name: 'Voice of Truth',
+    _id: 56e470311b36dc54026cc387 },
+  { __v: 0,
+    Comment: 'connected',
+    Name: 'Still',
+    _id: 56e473331fa100990373e230 },
+  { __v: 0,
+    Comment: 'connected',
+    Name: 'Still',
+    _id: 56e6f84b1fa100990373e231 },
+  { __v: 0, Comment: 'a', Name: 'a', _id: 56e8756d852b4aa221cdc2f7 } ]
+[0mGET /comment [36m304 [0m7.564 ms - -[0m

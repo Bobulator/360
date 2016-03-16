@@ -1,0 +1,4 @@
+
+> book@0.0.0 start /opt/bitnami/apache2/htdocs/CS360/LearningActivities/book
+> node ./bin/www
+
