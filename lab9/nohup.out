@@ -1,0 +1,77 @@
+
+> lab9@0.0.0 start /opt/bitnami/apache2/htdocs/CS360/lab9
+> node ./bin/www
+
+[0mGET / [36m304 [0m7.636 ms - -[0m
+[0mGET /javascripts/app.js [36m304 [0m1.798 ms - -[0m
+[0mGET /comments [36m304 [0m20.344 ms - -[0m
+[0mGET / [32m200 [0m3.005 ms - 945[0m
+[0mGET /favicon.ico [33m404 [0m363.802 ms - 1850[0m
+[0mGET /favicon.ico [33m404 [0m44.032 ms - 1850[0m
+[0mGET / [36m304 [0m0.904 ms - -[0m
+[0mGET /javascripts/app.js [36m304 [0m0.654 ms - -[0m
+[0mGET /comments [36m304 [0m6.093 ms - -[0m
+[0mGET /favicon.ico [33m404 [0m36.399 ms - 1850[0m
+[0mGET /favicon.ico [33m404 [0m20.614 ms - 1850[0m
+[0mGET / [32m200 [0m1.367 ms - 945[0m
+[0mGET / [32m200 [0m2.387 ms - 945[0m
+[0mGET /javascripts/app.js [32m200 [0m1.143 ms - 1272[0m
+[0mGET /comments [32m200 [0m5.756 ms - 752[0m
+[0mGET /comments [32m200 [0m4.976 ms - 752[0m
+[0mGET /favicon.ico [33m404 [0m18.758 ms - 1850[0m
+[0mGET / [32m200 [0m0.686 ms - 945[0m
+[0mGET /favicon.ico [33m404 [0m11.983 ms - 1850[0m
+[0mGET / [32m200 [0m0.776 ms - 945[0m
+[0mGET /javascripts/app.js [32m200 [0m1.342 ms - 1272[0m
+[0mGET /comments [32m200 [0m3.582 ms - 752[0m
+[0mGET /favicon.ico [33m404 [0m15.385 ms - 1850[0m
+[0mGET / [32m200 [0m0.569 ms - 945[0m
+[0mGET /javascripts/app.js [32m200 [0m2.030 ms - 1272[0m
+[0mGET /comments [32m200 [0m3.873 ms - 752[0m
+[0mGET /favicon.ico [33m404 [0m14.937 ms - 1850[0m
+[0mPUT /comments/56ec3bdbd5086e1f547fabb2/upvote [32m200 [0m16.227 ms - 76[0m
+[0mPUT /comments/56ec3a10fa89cf9153e7c42c/upvote [32m200 [0m3.452 ms - 69[0m
+[0mPUT /comments/56ec37812018bb065307be38/upvote [32m200 [0m2.892 ms - 84[0m
+[0mGET /favicon.ico [33m404 [0m17.550 ms - 1850[0m
+[0mGET / [36m304 [0m0.431 ms - -[0m
+[0mGET /javascripts/app.js [36m304 [0m0.575 ms - -[0m
+[0mGET /comments [32m200 [0m4.371 ms - 752[0m
+[0mGET /favicon.ico [33m404 [0m8.659 ms - 1850[0m
+[0mGET /favicon.ico [33m404 [0m15.528 ms - 1850[0m
+[0mGET / [32m200 [0m0.681 ms - 945[0m
+[0mGET /getcity [33m404 [0m7.656 ms - 1850[0m
+[0mGET /getcity [33m404 [0m11.007 ms - 1850[0m
+[0mGET /favicon.ico [33m404 [0m14.368 ms - 1850[0m
+[0mGET /getcity [33m404 [0m10.214 ms - 1850[0m
+[0mGET /favicon.ico [33m404 [0m8.558 ms - 1850[0m
+[0mGET /favicon.ico [33m404 [0m12.762 ms - 1850[0m
+[0mGET /getcity [33m404 [0m8.318 ms - 1850[0m
+[0mGET / [32m200 [0m0.516 ms - 945[0m
+[0mGET /favicon.ico [33m404 [0m6.970 ms - 1850[0m
+[0mGET / [32m200 [0m1.238 ms - 945[0m
+[0mGET /getcity [33m404 [0m12.203 ms - 1850[0m
+[0mGET /favicon.ico [33m404 [0m16.228 ms - 1850[0m
+[0mGET /favicon.ico [33m404 [0m9.275 ms - 1850[0m
+[0mGET /getcity [33m404 [0m6.308 ms - 1850[0m
+Terminated
+
+npm ERR! Linux 3.13.0-71-generic
+npm ERR! argv "/opt/bitnami/nodejs/bin/.node.bin" "/opt/bitnami/nodejs/bin/npm" "start"
+npm ERR! node v5.1.1
+npm ERR! npm  v3.3.12
+npm ERR! code ELIFECYCLE
+npm ERR! lab9@0.0.0 start: `node ./bin/www`
+npm ERR! Exit status 143
+npm ERR! 
+npm ERR! Failed at the lab9@0.0.0 start script 'node ./bin/www'.
+npm ERR! Make sure you have the latest version of node.js and npm installed.
+npm ERR! If you do, this is most likely a problem with the lab9 package,
+npm ERR! not with npm itself.
+npm ERR! Tell the author that this fails on your system:
+npm ERR!     node ./bin/www
+npm ERR! You can get their info via:
+npm ERR!     npm owner ls lab9
+npm ERR! There is likely additional logging output above.
+
+npm ERR! Please include the following file with any support request:
+npm ERR!     /opt/bitnami/apache2/htdocs/CS360/lab9/npm-debug.log
